@@ -6,12 +6,22 @@ Crawling Twitter's reply and save their contents and likes
 
 |Name|type|Description|
 |:---:|:---:|:---:|
-|tweet_id|`str`|The id of the tweet|
-|tweet_post|`str`|The content of the tweet|
-|tweet_likes|`int`|The number of likes of the tweet|
-|tweet_reply|`str`|The content of the reply|
-|reply_likes|`int`|The number of likes of the reply|
-|reply_id|`str`|The id of the reply|
+|Date Created|`str`|The date when the tweet was created|
+|Number of Likes|`int`|The number of likes of the tweet|
+|Source of Tweet|`str`|The source of the tweet|
+|Tweets|`str`|The source of the tweet|
+
+## Method
+
+Using [Snscrape](https://github.com/JustAnotherArchivist/snscrape)
+
+Install Snscrape
+
+`pip3 install snscrape`
+
+Development version
+
+`pip3 install git+https://github.com/JustAnotherArchivist/snscrape.git`
 
 ## Reference
 

@@ -7,7 +7,7 @@ import re
 attributes_container = []
 
 # Using TwitterSearchScraper to scrape data and append tweets to list
-for i,tweet in enumerate(sntwitter.TwitterSearchScraper('iPhone since:2023-02-07 until:2023-02-09').get_items()):
+for i,tweet in enumerate(sntwitter.TwitterSearchScraper(' since:2023-02-07 until:2023-02-09').get_items()):
     if i>100:
         break
     # remove the tweet that is not in English
