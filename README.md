@@ -14,7 +14,6 @@ Crawling Twitter's reply and save their contents and likes
 
 Top 20 keywords in 2021, each keyword has `5000` tweets
 ```
-
 "COVID-19",
 "Vaccine",
 "Zoom",
