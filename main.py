@@ -1,34 +1,60 @@
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import json
+import warnings
+import tqdm
+import time
 import re
 
-# Created a list to append all tweet attributes(data)
-attributes_container = []
+warnings.filterwarnings("ignore")
 
-# Using TwitterSearchScraper to scrape data and append tweets to list
-for i,tweet in enumerate(sntwitter.TwitterSearchScraper(' since:2023-02-07 until:2023-02-09').get_items()):
-    if i>100:
-        break
-    # remove the tweet that is not in English
-    if tweet.lang != 'en':
-        continue
-    attributes_container.append([tweet.date, tweet.likeCount, tweet.sourceLabel, tweet.content])
-    
-# Creating a dataframe from the tweets list above 
-tweets_df = pd.DataFrame(attributes_container, columns=["Date Created", "Number of Likes", "Source of Tweet", "Tweets"])
+search_terms = [
+    "COVID-19",
+    "Vaccine",
+    "Zoom",
+    "Bitcoin",
+    "Dogecoin",
+    "NFT",
+    "Elon Musk",
+    "Tesla",
+    "Amazon",
+    "iPhone 12",
+    "Remote work",
+    "TikTok",
+    "Instagram",
+    "Facebook",
+    "YouTube",
+    "Netflix",
+    "GameStop",
+    "Super Bowl",
+    "Olympics",
+    "Black Lives Matter"
+]
 
-# remove the ＠user and #hashtag in the tweets, and the link, and the emoji
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace('@[^\s]+', '')
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace('#[^\s]+', '')
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace('http\S+|www.\S+', '')
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace('[^\w\s#@/:%.,_-]', '', flags=re.UNICODE)
-# remove \n
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace('\n', '')
-# remove consecutive spaces
-tweets_df['Tweets'] = tweets_df['Tweets'].str.replace(' +', ' ')
-# remove the space at the beginning and end of the tweets
-tweets_df['Tweets'] = tweets_df['Tweets'].str.strip()
 
-# saving the dataframe as a json file, and utf-8 encoding is used to support special characters
-tweets_df.to_json('tweets.json', orient='records', lines=True, force_ascii=False, date_format='iso', date_unit='ms')
+# clear the file
+open('tweets.json', 'w').close()
+
+# Get the tweet from the user and the reply to the tweet
+for word in tqdm.tqdm(search_terms, desc="Searching"):
+    for i, tweet in enumerate(sntwitter.TwitterSearchScraper(word + ' lang:en since:2018-01-01 until:2023-5-20').get_items()):
+        temp_content = tweet.content
+        if i > 5000:
+            break
+        temp_content = temp_content.replace('@[^\s]+', '')
+        temp_content = temp_content.replace('#[^\s]+', '')
+        temp_content = temp_content.replace('http\S+|www.\S+', '')
+        temp_content = re.sub(r'https://t.co/[a-zA-Z0-9]*', '', temp_content)
+        temp_content = re.sub(r'@[\w]*', '', temp_content)
+        temp_content = temp_content.replace('\n', '')
+        temp_content = temp_content.replace(' +', ' ')
+        temp_content = temp_content.strip()
+
+        # sleep for 0.2s
+        time.sleep(0.2)
+
+        # write into json file
+        with open('tweets.json', 'a', encoding='utf-8') as f:
+            json.dump({'keyword': word, 'likes': tweet.likeCount, 'tweet': temp_content}, f, ensure_ascii=False)
+            f.write('\n')
+            f.flush()

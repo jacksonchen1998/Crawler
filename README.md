@@ -6,10 +6,38 @@ Crawling Twitter's reply and save their contents and likes
 
 |Name|type|Description|
 |:---:|:---:|:---:|
-|Date Created|`str`|The date when the tweet was created|
-|Number of Likes|`int`|The number of likes of the tweet|
-|Source of Tweet|`str`|The source of the tweet|
-|Tweets|`str`|The source of the tweet|
+|keyword|`str`|Keyword of the tweet|
+|likes|`int`|Number of likes|
+|tweet|`str`|Content of the tweet|
+
+## Usage
+
+Top 20 keywords in 2021, each keyword has `5000` tweets
+```
+
+"COVID-19",
+"Vaccine",
+"Zoom",
+"Bitcoin",
+"Dogecoin",
+"NFT",
+"Elon Musk",
+"Tesla",
+"Amazon",
+"iPhone 12",
+"Remote work",
+"TikTok",
+"Instagram",
+"Facebook",
+"YouTube",
+"Netflix",
+"GameStop",
+"Super Bowl",
+"Olympics",
+"Black Lives Matter"
+```
+
+![](./count.png)
 
 ## Method
 
