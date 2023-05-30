@@ -10,6 +10,8 @@ Crawling Twitter's reply and save their contents and likes
 |likes|`int`|Number of likes|
 |tweet|`str`|Content of the tweet|
 
+[Kaggle Dataset](https://www.kaggle.com/datasets/jackksoncsie/twitter-dataset-keywords-likes-and-tweets)
+
 ## Usage
 
 Top 20 keywords in 2021, each keyword has `5000` tweets
@@ -34,6 +36,18 @@ Top 20 keywords in 2021, each keyword has `5000` tweets
 "Super Bowl",
 "Olympics",
 "Black Lives Matter"
+"India vs England",
+"Ukraine",
+"Queen Elizabeth",
+"World Cup",
+"Jeffrey Dahmer",
+"Johnny Depp",
+"Will Smith",
+"Weather",
+"xvideo",
+"porn",
+"nba",
+"Macdonald",
 ```
 
 ![](./count.png)
