@@ -4,13 +4,23 @@ Crawling Twitter's reply and save their contents and likes
 
 ## Dataset
 
+### [Famous Words Twitter Dataset](https://www.kaggle.com/datasets/jackksoncsie/twitter-dataset-keywords-likes-and-tweets)
+
 |Name|type|Description|
 |:---:|:---:|:---:|
 |keyword|`str`|Keyword of the tweet|
 |likes|`int`|Number of likes|
 |tweet|`str`|Content of the tweet|
 
-[Kaggle Dataset](https://www.kaggle.com/datasets/jackksoncsie/twitter-dataset-keywords-likes-and-tweets)
+### [Famous Words Twitter Reply Dataset]()
+
+|Name|type|Description|
+|:---:|:---:|:---:|
+|keyword|`str`|Keyword of the tweet|
+|main_tweet|`str`|Content of the tweet|
+|main_likes|`int`|Number of likes of the tweet|
+|reply|`str`|Content of the reply|
+|reply_likes|`int`|Number of likes of the reply|
 
 ## Usage
 
