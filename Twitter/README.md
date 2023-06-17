@@ -50,7 +50,7 @@ Top 20 keywords in 2021, each keyword has `5000` tweets
 "Macdonald",
 ```
 
-![](./image/tweet.png)
+![](../image/tweet.png)
 
 ### [Famous Words Twitter Reply Dataset](https://www.kaggle.com/datasets/jackksoncsie/famous-keyword-twitter-replies-dataset?rvi=1)
 
@@ -99,7 +99,7 @@ search_terms = [
 ]
 ```
 
-![](./image/reply.png)
+![](../image/reply.png)
 
 ## Other program
 
