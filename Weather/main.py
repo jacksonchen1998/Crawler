@@ -6,58 +6,62 @@
 # Date format: YYYY-MM, from 2010-01 to 2020-12
 
 import requests
-from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import random
 import csv
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # set the year and month
 def set_year_month(year, month):
     # set the year
-    year_select = driver.find_element_by_id("year")
-    year_options = year_select.find_elements_by_tag_name("option")
-    for option in year_options:
-        if option.text == year:
-            option.click()
-            break
-    # set the month
-    month_select = driver.find_element_by_id("month")
-    month_options = month_select.find_elements_by_tag_name("option")
-    for option in month_options:
-        if option.text == month:
-            option.click()
-            break
-    # click the search button
-    search_button = driver.find_element_by_id("button")
-    search_button.click()
-    # wait for the page to load
-    time.sleep(random.randint(1, 3))
+    year_select = driver.find_element("id", "Year")
+    # get the options value
+    year_options = year_select.find_elements(By.TAG_NAME, "option")
+    for i in range(len(year_options)):
+        if year_options[i].text == year:
+            year_options[i].click()
+    
+    # Wait for the element to become stable
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "Month")))
 
-# get first row data
-def get_first_row_data():
-    # get the first row data
-    first_row = driver.find_element_by_xpath("//div[@class='col-md-12']/table/tbody/tr[1]")
-    first_row_data = first_row.find_elements_by_tag_name("td")
-    # get the date
-    date = first_row_data[0].text
+    # set the month
+    month_select = driver.find_element("id", "Month")
+    # get the options value
+    month_options = month_select.find_elements(By.TAG_NAME, "option")
+    for i in range(len(month_options)):
+        #print(month_options[i].text)
+        if month_options[i].text == month:
+            month_options[i].click()
+    # sleep for 0.2 second
+    #time.sleep(10)
+    
+
+# get the data from table id="MonthlyData_MOD"
+# header H-1 subH-2: mean_temperature
+# header H-2 subH-5: precipitation
+# header H-4 subH-8: humidity
+# header H-7 subH-12: sunshine_duration
+# header H-3 subH-6: max_wind_speed
+# skip first row
+
+def get_data():
+   # find the table
+    table = driver.find_element("id", "MonthlyData_MOD")
+    # get the table header
+    table_header = table.find_elements(By.TAG_NAME, "th")
+    # get the table data
+    table_data = table.find_elements(By.TAG_NAME, "td")
     # get the station
-    station = first_row_data[1].text
+    station = table_header[0].text
     # get the average temperature
-    average_temperature = first_row_data[2].text
-    # get the precipitation
-    precipitation = first_row_data[3].text
-    # get the humidity
-    humidity = first_row_data[4].text
-    # get the wind speed
-    wind_speed = first_row_data[5].text
-    # get the sunshine duration
-    sunshine_duration = first_row_data[6].text
-    # get the mean pressure
-    mean_pressure = first_row_data[7].text
-    # return the data
-    return date, station, average_temperature, precipitation, humidity, wind_speed, sunshine_duration, mean_pressure
+    average_temperature = table_data[0].text
+    
 
 if __name__ == "__main__":
     # set the url
@@ -65,19 +69,21 @@ if __name__ == "__main__":
     # set the driver
     driver = webdriver.Chrome()
     driver.get(url)
-    # set the year and month
-    year = "2010"
-    month = "01"
-    set_year_month(year, month)
-    # get the first row data
-    date, station, average_temperature, precipitation, humidity, wind_speed, sunshine_duration, mean_pressure = get_first_row_data()
-    # set the data
-    data = [date, station, average_temperature, precipitation, humidity, wind_speed, sunshine_duration, mean_pressure]
-    # set the csv file
-    csv_file = open("weather.csv", "w", newline="")
-    writer = csv.writer(csv_file)
-    writer.writerow(["Date", "Station", "Average Temperature", "Precipitation", "Humidity", "Wind Speed", "Sunshine Duration", "Mean Pressure"])
-    writer.writerow(data)
-    csv_file.close()
-    # close the driver
-    driver.close()
+    # create csv file called weather.csv
+    with open("weather.csv", "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["Date", "Station", "Average Temperature", "Precipitation", "Humidity", "Wind Speed", "Sunshine Duration", "Mean Pressure"])
+    
+    year = ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"]
+    month = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10" ,"11", "12"]
+
+    for i in range(len(year)):
+        for j in range(len(month)):
+            set_year_month(year[i], month[j])
+            station, average_temperature, precipitation, humidity, wind_speed, sunshine_duration, mean_pressure = get_data()
+            # save the data to csv file
+            with open("weather.csv", "a", newline="") as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([year[i] + "-" + month[j], station, average_temperature, precipitation, humidity, wind_speed, sunshine_duration, mean_pressure])
+            # sleep for 0.2 second
+            time.sleep(0.2)
