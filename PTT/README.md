@@ -6,9 +6,9 @@ Crawling PTT Beauty board
 Crawling all article in 2022
 * `python ptt_beauty_crawler.py push {start_date} {end_date}`
 Find the top 10 user that give the article upvote and downvote in the date range
-* `python {student_id}.py popular {start_date} {end_date}`
+* `python ptt_beauty_crawler.py popular {start_date} {end_date}`
 Find the image url in the article which has 100 upvote for the article
-* `python {student_id}.py keyword {keyword} {start_date} {end_date}`
+* `python ptt_beauty_crawler.py keyword {keyword} {start_date} {end_date}`
 Find the image url that has the keyword in the article context
 
 ### Evaluation
